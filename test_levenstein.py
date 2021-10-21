@@ -1,6 +1,6 @@
 import csv
 import pytest
-from edit_distance import calc_lev
+from levenstein import calc_lev
 
 
 def test_same_word():
@@ -19,7 +19,11 @@ def test_same_length():
 	assert calc_lev("this", "that") == 2
 
 def test_examples():
-	with open('data/examples.csv', newline='') as csvfile:
+	with open('data/wordlist.csv', newline='') as csvfile:
 		examples = csv.reader(csvfile)
 		for row in examples:
-			assert calc_lev(row[0], row[1]) == int(row[2])
+			w1 = row[0]
+			w2 = row[1]
+			dist = int(row[2])
+			error_msg = f"distance between {w1}/{w2} is not {dist}"
+			assert calc_lev(row[0], row[1]) == int(row[2]), error_msg
